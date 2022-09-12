@@ -1,0 +1,91 @@
+Status NEo
+
+Given a string, find the first non-repeating character in it and return its index.
+temp = {}
+inp = barbados
+
+for i in inp:
+	if i not in temp.keys():
+		temp[i]=inp.count(i)
+
+
+ind = []
+for i,j in temp.itmes():
+	if j==1:
+		ind.append(inp.index(i))
+		
+return ind
+
+
+temp = {'b':2,'a':2,'r':1,'d'}
+
+with data1 as(
+select salary,dense_rank() over(order by salary) as rnk from Employee
+)
+
+select distinct salary as 'SecondHighestSalary' from data1 where rnk=2;
+
+Window Function
+==========================
+select <col1>, <col2>, <win function> over(partition by <partition_list> order by <order_list> ROWS frame_clause)  from <Table_name>
+
+CTE
+===========================
+with df1 as 
+(
+select <col1>, <col2>, <win function> over(partition by <partition_list> order by <order_list> ROWS frame_clause)  from <Table_name>
+)select * from df1;
+
+
+
+
+EXAMPLE
+===============
+
+select title,salary, avg(salary) over( partition by title ) as "avg_sal" from employee
+
+
+WINDOW FUNCTION TYPE
+============================
+1. Aggregate: AVG(),MAX(),MIN(),SUM(),COUNT()
+2. Ranking:  ROW_NUMBER() , RANK(), DENSE_RANK(), PERCENT_RANK(), NTILE()
+3. Value:   LAG(),LEAD(),FIRST_VALUE(), LAST_VALUE(), NTH_VALUE()
+
+
+select product_id, unit_price, min(unit_price) over(partition by product_id) as "Min UP" from orders o inner join order_Details od on o.order_id=od.order_id;
+
+Exercise 3: Create a new column that ranks Unit Price in descending order for each CustomerId.
+
+select customer_id ,row_number() over(partition by customer_id order by unit_price desc) as "Rank" from orders o inner join order_Details od on o.order_id=od.order_id;
+
+FROM
+join
+rank ->1 partion 
+       2. order
+	   3. row num
+
+
+Row number-------------
+1001     1
+1001     2
+1001     3
+1003     4
+
+Rank-------------
+1001     1
+1001     1
+1001     1
+1003     4
+
+Dense Rank-------------
+1001     1
+1001     1
+1001     1
+1003     2
+
+
+
+95  1
+95  1
+90  2
+90  2
